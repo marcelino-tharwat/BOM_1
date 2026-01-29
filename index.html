@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Parent Window</title>
+</head>
+
+<body>
+
+  <h2>Parent Window</h2>
+
+  <button onclick="openChild()">Open Child Window</button>
+  <button onclick="stopMovement()">Stop Child Movement</button>
+
+  <script>
+    var childWindow;
+    var moveInterval;
+
+    function openChild() {
+      // فتح نافذة الطفل
+      childWindow = window.open(
+        "child.html",
+        "",
+        "width=200,height=200"
+      );
+
+      var x = 0;
+      var y = 0;
+      var step = 5;
+
+      var maxX = screen.width - 200;
+      var maxY = screen.height - 200;
+
+      moveInterval = setInterval(function () {
+        if (!childWindow || childWindow.closed) {
+          clearInterval(moveInterval);
+          return;
+        }
+
+        x += step;
+        y += step;
+
+        if (x >= maxX || y >= maxY) {
+          step = -5;
+        }
+
+        if (x <= 0 || y <= 0) {
+          step = 5;
+        }
+
+        childWindow.moveTo(x, y);
+        childWindow.focus();
+      }, 50);
+    }
+
+    function stopMovement() {
+      clearInterval(moveInterval);
+    }
+  </script>
+
+</body>
+
+</html>
